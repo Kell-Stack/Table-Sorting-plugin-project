@@ -42,27 +42,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
           value: 'cars'
         },
 
-        values: {
-          items: [
-               {
-                   label: 'Cars',
-                   value: 'cars',
-                   isDisabled: false
-               },
-               {
-                   label: 'Robots',
-                   value: 'robots',
-                   isDisabled: false
-               },
-               {
-                   label: 'Animals',
-                   value: 'animals',
-                   isDisabled: true
-               },
-           ],
-          value: 'cars'
-        },
-
         filter: {
           items: [
                {
@@ -107,10 +86,6 @@ require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css
         {
           header: 'Column',
           cell: function() { return kintoneUIComponent.createTableCell('dropdown', 'column') }
-        },
-        {
-          header: 'Values',
-          cell: function() { return kintoneUIComponent.createTableCell('dropdown', 'values') }
         },
         {
           header: 'Filter',
