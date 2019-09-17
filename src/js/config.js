@@ -19,7 +19,6 @@ import {
     var tableRecords = event.record.order_items.value;
     console.log("👹", tableRecords)
 
-<<<<<<< HEAD
         filter: {
           items: [
                {
@@ -39,23 +38,6 @@ import {
                },
            ],
           value: 'cars'
-=======
-  }).catch((err) => {
-    console.log(err);
-  });
-
-  var initialData = [{
-    column: {
-      items: [{
-          label: 'Cars',
-          value: 'cars',
-          isDisabled: false
-        },
-        {
-          label: 'Robots',
-          value: 'robots',
-          isDisabled: false
->>>>>>> UI-component-disappear-after-module-split
         },
         {
           label: 'Animals',
@@ -72,19 +54,8 @@ import {
           isDisabled: false
         },
         {
-<<<<<<< HEAD
           header: 'Filter',
           cell: function() { return kintoneUIComponent.createTableCell('dropdown', 'filter') }
-=======
-          label: 'Robots',
-          value: 'robots',
-          isDisabled: false
-        },
-        {
-          label: 'Animals',
-          value: 'animals',
-          isDisabled: true
->>>>>>> UI-component-disappear-after-module-split
         },
       ],
       value: 'cars'
