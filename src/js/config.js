@@ -2,123 +2,73 @@ import $ from 'jquery';
 import * as kintoneJSSDK from '@kintone/kintone-js-sdk';
 var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
 require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
+import {
+  setTable
+} from './configTable'
 
 
-(function(PLUGIN_ID) {
+(function (PLUGIN_ID) {
   'use strict';
 
   var connection = new kintoneJSSDK.Connection()
   var kintoneApp = new kintoneJSSDK.App(connection)
 
   kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
-  
-  
+
+
     var tableRecords = event.record.order_items.value;
-  console.log("👹",tableRecords)
+    console.log("👹", tableRecords)
 
-}).catch((err) => {
-  console.log(err);
-});
+  }).catch((err) => {
+    console.log(err);
+  });
 
-    var initialData = [{
-        column: {
-          items: [
-               {
-                   label: 'Cars',
-                   value: 'cars',
-                   isDisabled: false
-               },
-               {
-                   label: 'Robots',
-                   value: 'robots',
-                   isDisabled: false
-               },
-               {
-                   label: 'Animals',
-                   value: 'animals',
-                   isDisabled: true
-               },
-           ],
-          value: 'cars'
-        },
-
-        values: {
-          items: [
-               {
-                   label: 'Cars',
-                   value: 'cars',
-                   isDisabled: false
-               },
-               {
-                   label: 'Robots',
-                   value: 'robots',
-                   isDisabled: false
-               },
-               {
-                   label: 'Animals',
-                   value: 'animals',
-                   isDisabled: true
-               },
-           ],
-          value: 'cars'
-        },
-
-        filter: {
-          items: [
-               {
-                   label: 'Cars',
-                   value: 'cars',
-                   isDisabled: false
-               },
-               {
-                   label: 'Robots',
-                   value: 'robots',
-                   isDisabled: false
-               },
-               {
-                   label: 'Animals',
-                   value: 'animals',
-                   isDisabled: true
-               },
-           ],
-          value: 'cars'
-        },
-        
-      },
-    ];
-  
-    // default row data of a table, this data will be used to create new row
-    var defaultRowData = JSON.parse(JSON.stringify(initialData[0]))
-
-    var overriddenRowData = JSON.parse(JSON.stringify(initialData[0]))
-  
-    var table = new kintoneUIComponent.Table({
-      // initial table data
-      data: initialData,
-      // default row data on row add
-      defaultRowData: defaultRowData,
-      onRowAdd: function(e) {
-        console.log('table.onAdd', e);
-        // if onRowAdd does not return anything, defaultRowData will be used to create new table row
-        // if below row data is returned, it will override defaultRowData to be used to create new table row
-        return JSON.parse(JSON.stringify(overriddenRowData));
-      },
-      columns: [
-        {
-          header: 'Column',
-          cell: function() { return kintoneUIComponent.createTableCell('dropdown', 'column') }
+  var initialData = [{
+    column: {
+      items: [{
+          label: 'Cars',
+          value: 'cars',
+          isDisabled: false
         },
         {
-          header: 'Values',
-          cell: function() { return kintoneUIComponent.createTableCell('dropdown', 'values') }
+          label: 'Robots',
+          value: 'robots',
+          isDisabled: false
         },
         {
-          header: 'Filter',
-          cell: function() { return kintoneUIComponent.createTableCell('dropdown', 'filter') }
+          label: 'Animals',
+          value: 'animals',
+          isDisabled: true
         },
-      ]
-    });
-    $('.settings').append(table.render());
+      ],
+      value: 'cars'
+    },
+    filter: {
+      items: [{
+          label: 'Cars',
+          value: 'cars',
+          isDisabled: false
+        },
+        {
+          label: 'Robots',
+          value: 'robots',
+          isDisabled: false
+        },
+        {
+          label: 'Animals',
+          value: 'animals',
+          isDisabled: true
+        },
+      ],
+      value: 'cars'
+    },
 
-  })(kintone.$PLUGIN_ID);
+  }, ];
 
+  var table = setTable(initialData)
+
+  $('.settings').append(table.render());
+
+
+
+})(kintone.$PLUGIN_ID);
