@@ -1,10 +1,10 @@
 
 var handleSaveButton = () => {
-    console.log("save")
+    console.log("save button")
   };
 
 var handleCancelButton = () => {
-    console.log("cancel")
+    console.log("cancel button")
   };
 
 export {
