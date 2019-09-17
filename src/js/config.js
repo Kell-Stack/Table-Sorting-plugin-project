@@ -12,6 +12,8 @@ import {
 (function(PLUGIN_ID) {
   'use strict';
 
+
+  // var getFormLayout = () => {
   var connection = new kintoneJSSDK.Connection()
   var kintoneApp = new kintoneJSSDK.App(connection)
 
@@ -21,6 +23,26 @@ import {
 console.log("🥶",rsp)
 
     var initialData = [{
+      tableFieldCode: {
+        items: [
+             {
+                 label: 'Cars',
+                 value: 'cars',
+                 isDisabled: false
+             },
+             {
+                 label: 'Robots',
+                 value: 'robots',
+                 isDisabled: false
+             },
+             {
+                 label: 'Animals',
+                 value: 'animals',
+                 isDisabled: true
+             },
+         ],
+        value: 'cars'
+      },
         column: {
           items: [
                {
@@ -41,7 +63,6 @@ console.log("🥶",rsp)
            ],
           value: 'cars'
         },
-
         filter: {
           items: [
                {
@@ -91,6 +112,9 @@ console.log("🥶",rsp)
   }).catch((err) => {
     console.log(err);
   });
+// }
+
+// getFormLayout()
 
   })(kintone.$PLUGIN_ID);
 

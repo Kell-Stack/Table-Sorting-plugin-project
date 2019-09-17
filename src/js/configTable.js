@@ -15,6 +15,11 @@ var setTable = (initialData) => {
             return JSON.parse(JSON.stringify(overriddenRowData));
         },
         columns: [{
+                header: 'Table Field Code',
+                cell: function () {
+                    return kintoneUIComponent.createTableCell('dropdown', 'tableFieldCode')
+                }
+            }, {
                 header: 'Column',
                 cell: function () {
                     return kintoneUIComponent.createTableCell('dropdown', 'column')
