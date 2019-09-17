@@ -2,15 +2,39 @@ import $ from 'jquery';
 import * as kintoneJSSDK from '@kintone/kintone-js-sdk';
 var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
 require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
-import {setTable} from './configTable'
+import {
+  setTable
+} from './configTable'
 import {
   handleSaveButton,
   handleCancelButton
 } from './saveAndCancel'
 
 
-(function(PLUGIN_ID) {
+(function (PLUGIN_ID) {
   'use strict';
+
+  var getSubtableList = (formLayout) => {
+    var items = [{
+      label: '--------',
+      value: '--------',
+      isDisabled: true
+    }]
+    const layout = formLayout.layout
+
+      // var subTableArr = 
+      console.log("⛱",layout)
+
+      var subtableLayout = (row) => {
+        var layoutArr = row.code
+        layoutArr.forEach(subtable => {
+          var itemObj = {}
+          // itemObj.code = subtable.
+        })
+      }
+
+    return items
+  }
 
 
   // var getFormLayout = () => {
@@ -18,75 +42,41 @@ import {
   var kintoneApp = new kintoneJSSDK.App(connection)
 
   kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
-  
-  
-console.log("🥶",rsp)
+    console.log("🥶", rsp)
+    var subTable = getSubtableList(rsp)
+    console.log("😡",subTable)
 
     var initialData = [{
       tableFieldCode: {
-        items: [
-             {
-                 label: 'Cars',
-                 value: 'cars',
-                 isDisabled: false
-             },
-             {
-                 label: 'Robots',
-                 value: 'robots',
-                 isDisabled: false
-             },
-             {
-                 label: 'Animals',
-                 value: 'animals',
-                 isDisabled: true
-             },
-         ],
+        items: [{
+            items: subTable,
+            value: '🎡',
+            isDisabled: false
+          },
+        ],
+        value: '🎡'
+      },
+      column: {
+        items: [{
+            label: 'Cars',
+            value: 'cars',
+            isDisabled: false
+          },
+        ],
         value: 'cars'
       },
-        column: {
-          items: [
-               {
-                   label: 'Cars',
-                   value: 'cars',
-                   isDisabled: false
-               },
-               {
-                   label: 'Robots',
-                   value: 'robots',
-                   isDisabled: false
-               },
-               {
-                   label: 'Animals',
-                   value: 'animals',
-                   isDisabled: true
-               },
-           ],
-          value: 'cars'
-        },
-        filter: {
-          items: [
-               {
-                   label: 'Cars',
-                   value: 'cars',
-                   isDisabled: false
-               },
-               {
-                   label: 'Robots',
-                   value: 'robots',
-                   isDisabled: false
-               },
-               {
-                   label: 'Animals',
-                   value: 'animals',
-                   isDisabled: true
-               },
-           ],
-          value: 'cars'
-        },
-        
+      filter: {
+        items: [{
+            label: 'Cars',
+            value: 'cars',
+            isDisabled: false
+          },
+        ],
+        value: 'cars'
       },
-    ];
-  
+
+    }, ];
+
     var table = setTable(initialData)
 
     $('.settings').append(table.render());
@@ -112,9 +102,8 @@ console.log("🥶",rsp)
   }).catch((err) => {
     console.log(err);
   });
-// }
+  // }
 
-// getFormLayout()
+  // getFormLayout()
 
-  })(kintone.$PLUGIN_ID);
-
+})(kintone.$PLUGIN_ID);
