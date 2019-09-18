@@ -21,65 +21,50 @@ import {
       isDisabled: true
     }]
     const layout = formLayout.layout
+    console.log("⛱", layout)
 
-      // var subTableArr = 
-      console.log("⛱",layout)
-
-      var subtableLayout = (row) => {
-        var layoutArr = row.code
-        layoutArr.forEach(subtable => {
-          var itemObj = {}
-          // itemObj.code = subtable.
-        })
+    layout.forEach(subtable => {
+      if (subtable.type === 'SUBTABLE') {
+        console.log("🤯", subtable)
+        var itemObj = {}
+        itemObj.label = subtable.code
+        itemObj.value - subtable.code
+        itemObj.isDisabled = false
+        items.push(itemObj)
+        console.log("😈", itemObj)
       }
-
+    })
     return items
   }
 
 
-  // var getFormLayout = () => {
+  var getFormLayout = () => {
   var connection = new kintoneJSSDK.Connection()
   var kintoneApp = new kintoneJSSDK.App(connection)
 
   kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
+    var config = kintone.plugin.app.getConfig(PLUGIN_ID)
     console.log("🥶", rsp)
     var subTable = getSubtableList(rsp)
-    console.log("😡",subTable)
+    console.log("😡", subTable)
 
     var initialData = [{
       tableFieldCode: {
-        items: [{
-            items: subTable,
-            value: '🎡',
-            isDisabled: false
-          },
-        ],
-        value: '🎡'
-      },
-      column: {
-        items: [{
-            label: 'Cars',
-            value: 'cars',
-            isDisabled: false
-          },
-        ],
-        value: 'cars'
-      },
-      filter: {
-        items: [{
-            label: 'Cars',
-            value: 'cars',
-            isDisabled: false
-          },
-        ],
-        value: 'cars'
-      },
+          items: subTable,
+          value: '🎡'
+        }
+    }]
 
-    }, ];
 
     var table = setTable(initialData)
 
     $('.settings').append(table.render());
+
+    if (config && config.table) {
+      var parsedConfig = JSON.parse(config.table)
+      var newConfig = updateddropDownItems(parsedConfig, initalData)
+      table.setValue(newConfig)
+    }
 
     var saveButton = new kintoneUIComponent.Button({
       text: 'Save',
@@ -102,8 +87,8 @@ import {
   }).catch((err) => {
     console.log(err);
   });
-  // }
+ }
 
-  // getFormLayout()
+  getFormLayout()
 
 })(kintone.$PLUGIN_ID);

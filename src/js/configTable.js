@@ -19,18 +19,7 @@ var setTable = (initialData) => {
                 cell: function () {
                     return kintoneUIComponent.createTableCell('dropdown', 'tableFieldCode')
                 }
-            }, {
-                header: 'Column',
-                cell: function () {
-                    return kintoneUIComponent.createTableCell('dropdown', 'column')
-                }
-            },
-            {
-                header: 'Filter',
-                cell: function () {
-                    return kintoneUIComponent.createTableCell('dropdown', 'filter')
-                }
-            },
+            }, 
         ]
     })
     return table
