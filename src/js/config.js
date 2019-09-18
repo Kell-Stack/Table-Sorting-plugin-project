@@ -14,7 +14,7 @@ import {
 (function (PLUGIN_ID) {
   'use strict';
 
-  var getSubtableList = (formLayout) => {
+  var getSubTableList = (formLayout) => {
     var items = [{
       label: '--------',
       value: '--------',
@@ -28,7 +28,7 @@ import {
         console.log("🤯", subtable)
         var itemObj = {}
         itemObj.label = subtable.code
-        itemObj.value - subtable.code
+        itemObj.value = subtable.code
         itemObj.isDisabled = false
         items.push(itemObj)
         console.log("😈", itemObj)
@@ -43,28 +43,23 @@ import {
   var kintoneApp = new kintoneJSSDK.App(connection)
 
   kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
-    var config = kintone.plugin.app.getConfig(PLUGIN_ID)
     console.log("🥶", rsp)
-    var subTable = getSubtableList(rsp)
+    var config = kintone.plugin.app.getConfig(PLUGIN_ID)
+    console.log(config)
+    var subTable = getSubTableList(rsp)
     console.log("😡", subTable)
 
     var initialData = [{
       tableFieldCode: {
           items: subTable,
-          value: '🎡'
-        }
-    }]
-
+          value: '--------'
+      }
+    }];
 
     var table = setTable(initialData)
 
     $('.settings').append(table.render());
-
-    if (config && config.table) {
-      var parsedConfig = JSON.parse(config.table)
-      var newConfig = updateddropDownItems(parsedConfig, initalData)
-      table.setValue(newConfig)
-    }
+    
 
     var saveButton = new kintoneUIComponent.Button({
       text: 'Save',
