@@ -65,7 +65,9 @@ import {
 
       table.on('cellChange', function (event) {
         console.log("🙃", event);
-        let tableName = event.data[0].tableFieldCode.value
+        for (let i = 0; i < event.data.length; i++) {
+          var tableName = event.data[i].tableFieldCode.value
+        }
         popUpConfigTable(tableName)
       });
 
@@ -98,3 +100,11 @@ import {
   getFormLayout()
 
 })(kintone.$PLUGIN_ID);
+
+//BUGS 
+// 1. when you select a drop down of the table you want towork with, a pop up table appears
+//    that *will* allow you to choose the columns' of that table HOWEVER if you choose that 
+//    same table again in the initial dropdown a new table pops out, will need to disable 
+//    once chose 
+
+// 2. 
