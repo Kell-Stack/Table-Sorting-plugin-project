@@ -9,8 +9,9 @@ import {
   handleSaveButton,
   handleCancelButton
 } from './saveAndCancel'
-import { popUpConfigTable } from './popUpConfigTable';
-// import {popUpConfigTable} from './popUpConfigTable.js'
+import {
+  popUpConfigTable
+} from './popUpConfigTable';
 
 
 (function (PLUGIN_ID) {
@@ -20,7 +21,7 @@ import { popUpConfigTable } from './popUpConfigTable';
     var items = [{
       label: '--------',
       value: '--------',
-      isDisabled: false
+      isDisabled: true
     }]
     const layout = formLayout.layout
     console.log("⛱", layout)
@@ -47,7 +48,7 @@ import { popUpConfigTable } from './popUpConfigTable';
     kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
       console.log("🥶", rsp)
       var config = kintone.plugin.app.getConfig(PLUGIN_ID)
-      console.log(config)
+      console.log("why is this empty? ", config)
       var subTable = getSubTableList(rsp)
       console.log("😡", subTable)
 
@@ -56,22 +57,16 @@ import { popUpConfigTable } from './popUpConfigTable';
           items: subTable,
           value: '--------'
         },
-        // iconBtn: {
-        //   type: 'insert',
-        //   color: 'blue',
-        //   size: 'normal'
-        // },
       }];
 
 
 
       var table = setTable(initialData)
-      
-      table.on('cellChange', function(event) {
-        console.log(event);
-        popUpConfigTable()
-        
 
+      table.on('cellChange', function (event) {
+        console.log("🙃", event);
+        let tableName = event.data[0].tableFieldCode.value
+        popUpConfigTable(tableName)
       });
 
       $('.settings').append(table.render());
