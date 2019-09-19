@@ -9,6 +9,8 @@ import {
   handleSaveButton,
   handleCancelButton
 } from './saveAndCancel'
+import { popUpConfigTable } from './popUpConfigTable';
+// import {popUpConfigTable} from './popUpConfigTable.js'
 
 
 (function (PLUGIN_ID) {
@@ -18,7 +20,7 @@ import {
     var items = [{
       label: '--------',
       value: '--------',
-      isDisabled: true
+      isDisabled: false
     }]
     const layout = formLayout.layout
     console.log("⛱", layout)
@@ -39,50 +41,64 @@ import {
 
 
   var getFormLayout = () => {
-  var connection = new kintoneJSSDK.Connection()
-  var kintoneApp = new kintoneJSSDK.App(connection)
+    var connection = new kintoneJSSDK.Connection()
+    var kintoneApp = new kintoneJSSDK.App(connection)
 
-  kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
-    console.log("🥶", rsp)
-    var config = kintone.plugin.app.getConfig(PLUGIN_ID)
-    console.log(config)
-    var subTable = getSubTableList(rsp)
-    console.log("😡", subTable)
+    kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
+      console.log("🥶", rsp)
+      var config = kintone.plugin.app.getConfig(PLUGIN_ID)
+      console.log(config)
+      var subTable = getSubTableList(rsp)
+      console.log("😡", subTable)
 
-    var initialData = [{
-      tableFieldCode: {
+      var initialData = [{
+        tableFieldCode: {
           items: subTable,
           value: '--------'
-      }
-    }];
+        },
+        // iconBtn: {
+        //   type: 'insert',
+        //   color: 'blue',
+        //   size: 'normal'
+        // },
+      }];
 
-    var table = setTable(initialData)
 
-    $('.settings').append(table.render());
-    
 
-    var saveButton = new kintoneUIComponent.Button({
-      text: 'Save',
-      type: 'submit'
+      var table = setTable(initialData)
+      
+      table.on('cellChange', function(event) {
+        console.log(event);
+        popUpConfigTable()
+        
+
+      });
+
+      $('.settings').append(table.render());
+
+
+      var saveButton = new kintoneUIComponent.Button({
+        text: 'Save',
+        type: 'submit'
+      });
+      saveButton.on('click', function () {
+        handleSaveButton(table)
+      });
+
+      var cancelButton = new kintoneUIComponent.Button({
+        text: 'Cancel'
+      });
+      cancelButton.on('click', function (event) {
+        handleCancelButton(table)
+      });
+
+      $(".SaveButton").append(saveButton.render())
+      $(".CancelButton").append(cancelButton.render())
+
+    }).catch((err) => {
+      console.log(err);
     });
-    saveButton.on('click', function () {
-      handleSaveButton(table)
-    });
-
-    var cancelButton = new kintoneUIComponent.Button({
-      text: 'Cancel'
-    });
-    cancelButton.on('click', function (event) {
-      handleCancelButton(table)
-    });
-
-    $(".SaveButton").append(saveButton.render())
-    $(".CancelButton").append(cancelButton.render())
-
-  }).catch((err) => {
-    console.log(err);
-  });
- }
+  }
 
   getFormLayout()
 
