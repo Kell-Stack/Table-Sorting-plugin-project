@@ -109,3 +109,5 @@ import {
 //    once chose 
 
 // 2. if you switch the table the popup doesn't change it just gets added
+
+// 3. popup table is aggregating all column names as opposed to table specific column names

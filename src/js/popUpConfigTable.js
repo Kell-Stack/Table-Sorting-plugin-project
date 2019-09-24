@@ -1,7 +1,4 @@
 import * as kintoneJSSDK from '@kintone/kintone-js-sdk';
-import {
-    setTable
-} from './configTable';
 var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
 require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
 
@@ -14,13 +11,15 @@ var getTableColumns = (formLayout) => {
     }]
     const layout = formLayout.layout
 
+    //
+
     layout.forEach(subtable => {
         if (subtable.type === 'SUBTABLE') {
             subtable.fields.forEach(field => {
                 var itemObj = {}
-                itemObj.label = field.type
+                itemObj.label = field.code
                 itemObj.value = field.code
-                itemObj.isDisabled = true
+                itemObj.isDisabled = false
                 items.push(itemObj)
             })
         }
@@ -41,13 +40,14 @@ var popUpConfigTable = (tableName) => {
             var popupTableColumns = getTableColumns(rsp)
             var initialData2 = [{
                 column: {
-                    items: popupTableColumns
+                    items: popupTableColumns,
+                    value: '--------'
                 },
                 // filter function
                 filter: {
                     items: [{
-                        label: 'Yars',
-                        value: 'yars',
+                        label: 'Cars',
+                        value: 'Cars',
                         isDisabled: false
                     }, ],
                 }
@@ -79,7 +79,7 @@ var popUpConfigTable = (tableName) => {
                 return JSON.parse(JSON.stringify(overriddenRowData));
             },
             columns: [{
-                    header: tableName + '\'s Column',
+                    header: tableName + '\'s Column (Field Code)',
                     cell: function () {
                         return kintoneUIComponent.createTableCell('dropdown', 'column')
                     }
