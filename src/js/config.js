@@ -21,7 +21,7 @@ import {
     var items = [{
       label: '--------',
       value: '--------',
-      isDisabled: true
+      isDisabled: false
     }]
     const layout = formLayout.layout
     console.log("⛱", layout)
@@ -67,6 +67,7 @@ import {
         console.log("🙃", event);
         for (let i = 0; i < event.data.length; i++) {
           var tableName = event.data[i].tableFieldCode.value
+          console.log("🤬",tableName )
         }
         popUpConfigTable(tableName)
       });
@@ -107,4 +108,4 @@ import {
 //    same table again in the initial dropdown a new table pops out, will need to disable 
 //    once chose 
 
-// 2. 
+// 2. if you switch the table the popup doesn't change it just gets added
