@@ -28,7 +28,7 @@ var getTableColumns = (formLayout) => {
 }
 
 
-var popUpConfigTable = (tableName) => {
+var popUpConfigDropDowns = (tableName) => {
 
     var getFormLayout = () => {
         var connection = new kintoneJSSDK.Connection()
@@ -97,5 +97,5 @@ var popUpConfigTable = (tableName) => {
 }
 
 export {
-    popUpConfigTable
+    popUpConfigDropDowns 
 }

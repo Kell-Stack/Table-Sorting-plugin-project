@@ -2,16 +2,14 @@ import $ from 'jquery';
 import * as kintoneJSSDK from '@kintone/kintone-js-sdk';
 var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
 require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
-import {
-  setTable
-} from './configTable'
+// import {setTable} from './configTable'
 import {
   handleSaveButton,
   handleCancelButton
 } from './saveAndCancel'
-import {
-  popUpConfigTable
-} from './popUpConfigTable';
+// import {
+//   popUpConfigDropDowns
+// } from './popUpConfigDropDowns';
 
 
 (function (PLUGIN_ID) {
@@ -19,8 +17,8 @@ import {
 
   var getSubTableList = (formLayout) => {
     var items = [{
-      label: '--------',
-      value: '--------',
+      label: '---k-----',
+      value: '-------l-',
       isDisabled: false
     }]
     const layout = formLayout.layout
@@ -52,27 +50,27 @@ import {
       var subTable = getSubTableList(rsp)
       console.log("😡", subTable)
 
-      var initialData = [{
-        tableFieldCode: {
-          items: subTable,
-          value: '--------'
-        },
-      }];
+    var dropdown = new kintoneUIComponent.Dropdown({
+      items: [
+          {
+              label: 'hE-------',
+              value: '--------',
+              isDisabled: false
+          },
+      ],
+      value: '--------'
+  });
 
+      // dropdown.on('change', function (event) {
+      //   console.log("🙃", event);
+      // //   for (let i = 0; i < event.data.length; i++) {
+      // //     var tableName = event.data[i].tableFieldCode.value
+      // //     console.log("🤬", tableName)
+      // //   }
+      // //   popUpConfigDropDowns(tableName)
+      // });
 
-
-      var table = setTable(initialData)
-
-      table.on('cellChange', function (event) {
-        console.log("🙃", event);
-        for (let i = 0; i < event.data.length; i++) {
-          var tableName = event.data[i].tableFieldCode.value
-          console.log("🤬",tableName )
-        }
-        popUpConfigTable(tableName)
-      });
-
-      $('.settings').append(table.render());
+      $('.settings').append(dropdown.render());
 
 
       var saveButton = new kintoneUIComponent.Button({
@@ -80,14 +78,14 @@ import {
         type: 'submit'
       });
       saveButton.on('click', function () {
-        handleSaveButton(table)
+        handleSaveButton(dropdown)
       });
 
       var cancelButton = new kintoneUIComponent.Button({
         text: 'Cancel'
       });
       cancelButton.on('click', function (event) {
-        handleCancelButton(table)
+        handleCancelButton(dropdown)
       });
 
       $(".SaveButton").append(saveButton.render())

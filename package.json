@@ -1,6 +1,7 @@
 {
-  "name": "table-sorting-plugin",
+  "name": "table-sorting",
   "version": "0.1.0",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node scripts/npm-start.js",
@@ -31,5 +32,20 @@
     "jquery": "^3.4.1",
     "style-loader": "^0.23.1",
     "url-loader": "^2.1.0"
-  }
+  },
+  "description": "> Authored by Kelly Sousa, Kinternship 2019",
+  "main": "webpack.config.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kell-Stack/Table-Sorting-plugin-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kell-Stack/Table-Sorting-plugin-project/issues"
+  },
+  "homepage": "https://github.com/Kell-Stack/Table-Sorting-plugin-project#readme"
 }
