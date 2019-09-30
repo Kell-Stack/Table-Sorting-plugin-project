@@ -50,53 +50,74 @@ import {
       var subTable = getSubTableList(rsp)
       console.log("😡", subTable)
 
-    var dropdown = new kintoneUIComponent.Dropdown({
-      items: subTable,
-      value: '--------'
-  });
+      var getTableColumns = (formLayout) => {
+        var items = [{
+          label: '--------',
+          value: '--------',
+          isDisabled: true
+        }]
+        const layout = formLayout.layout
 
-  var getTableColumns = (formLayout) => {
-    var items = [{
-        label: '--------',
-        value: '--------',
-        isDisabled: true
-    }]
-    const layout = formLayout.layout
-
-    layout.forEach(subtable => {
-        if (subtable.type === 'SUBTABLE') {
+        layout.forEach(subtable => {
+          if (subtable.type === 'SUBTABLE') {
             subtable.fields.forEach(field => {
-                var itemObj = {}
-                itemObj.label = field.code
-                itemObj.value = field.code
-                itemObj.isDisabled = false
-                items.push(itemObj)
+              var itemObj = {}
+              itemObj.label = field.code
+              itemObj.value = field.code
+              itemObj.isDisabled = false
+              items.push(itemObj)
             })
-        }
-    })
-    return items
-}
-$('.settings').text("Please choose the table you'd like to sort: ").append(dropdown.render());
+          }
+        })
+        return items
+      }
+
+      var dropdown = new kintoneUIComponent.Dropdown({
+        items: subTable,
+        value: '--------'
+      });
+
+      $('.settings').text("Please choose the table you'd like to sort: ").append(dropdown.render());
 
       dropdown.on('change', function (event) {
         console.log("🙃hey kelly", event);
 
         var tableColumn = getTableColumns(rsp)
-        
+
         var dropdown2 = new kintoneUIComponent.Dropdown({
           items: tableColumn,
           value: '--------'
-      });
-        // getTableColumns(rsp)
+        })
 
-        // for (let i = 0; i < event.data.length; i++) {
-        //   var tableName = event.data[i].tableFieldCode.value
-        //   console.log("🤬", tableName)
-        // }
-      //   popUpConfigDropDowns(tableName)
-      $('.settings').text("Please choose the column from " + event + " you'd like to sort: ").append(dropdown2.render());
 
-      });
+        $('.settings')
+          .text("Please choose the column from " + event + " you'd like to sort: ")
+          .append(dropdown2.render());
+
+        console.log("why aren't you hitting this");
+        
+        dropdown2.on('change', function (event) {
+          console.log("🙃hey kelly", event);
+
+        var dropdown3 = new kintoneUIComponent.Dropdown({
+          items: [{
+              label: 'Ascending',
+              value: 'Ascending',
+              isDisabled: false
+            },
+            {
+              label: 'Descending',
+              value: 'Descending',
+              isDisabled: false
+            },
+          ]
+        });
+
+        $('.settings')
+          .text("then the way you'd like to sort")
+          .append(dropdown3.render());
+      })
+    });
 
       var saveButton = new kintoneUIComponent.Button({
         text: 'Save',
