@@ -11,8 +11,6 @@ var getTableColumns = (formLayout) => {
     }]
     const layout = formLayout.layout
 
-    //
-
     layout.forEach(subtable => {
         if (subtable.type === 'SUBTABLE') {
             subtable.fields.forEach(field => {

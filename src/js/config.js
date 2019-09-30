@@ -55,17 +55,48 @@ import {
       value: '--------'
   });
 
-      // dropdown.on('change', function (event) {
-      //   console.log("🙃", event);
-      // //   for (let i = 0; i < event.data.length; i++) {
-      // //     var tableName = event.data[i].tableFieldCode.value
-      // //     console.log("🤬", tableName)
-      // //   }
-      // //   popUpConfigDropDowns(tableName)
-      // });
+  var getTableColumns = (formLayout) => {
+    var items = [{
+        label: '--------',
+        value: '--------',
+        isDisabled: true
+    }]
+    const layout = formLayout.layout
 
-      $('.settings').text("Please choose the table you'd like to sort: ").append(dropdown.render());
+    layout.forEach(subtable => {
+        if (subtable.type === 'SUBTABLE') {
+            subtable.fields.forEach(field => {
+                var itemObj = {}
+                itemObj.label = field.code
+                itemObj.value = field.code
+                itemObj.isDisabled = false
+                items.push(itemObj)
+            })
+        }
+    })
+    return items
+}
+$('.settings').text("Please choose the table you'd like to sort: ").append(dropdown.render());
 
+      dropdown.on('change', function (event) {
+        console.log("🙃hey kelly", event);
+
+        var tableColumn = getTableColumns(rsp)
+        
+        var dropdown2 = new kintoneUIComponent.Dropdown({
+          items: tableColumn,
+          value: '--------'
+      });
+        // getTableColumns(rsp)
+
+        // for (let i = 0; i < event.data.length; i++) {
+        //   var tableName = event.data[i].tableFieldCode.value
+        //   console.log("🤬", tableName)
+        // }
+      //   popUpConfigDropDowns(tableName)
+      $('.settings').text("Please choose the column from " + event + " you'd like to sort: ").append(dropdown2.render());
+
+      });
 
       var saveButton = new kintoneUIComponent.Button({
         text: 'Save',
