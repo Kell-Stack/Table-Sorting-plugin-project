@@ -20,8 +20,16 @@ import {
       label: '--------',
       value: '--------',
       isDisabled: true
-    },
-  ]
+    }]
+    // var templateItems = [{
+    //   items: [{
+    //     label: '--------',
+    //     value: '--------',
+    //     isDisabled: false
+    //   }],
+    //   value: '--------'
+    // }]
+
     const layout = formLayout.layout
     console.log("⛱", layout)
 
@@ -52,7 +60,8 @@ import {
       console.log("😡", subTable)
 
     var dropdown = new kintoneUIComponent.Dropdown({
-      items: subTable
+      items: subTable,
+      value: '--------'
       // [
       //     {
       //         label: subTable,
