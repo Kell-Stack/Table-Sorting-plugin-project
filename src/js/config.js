@@ -21,15 +21,6 @@ import {
       value: '--------',
       isDisabled: true
     }]
-    // var templateItems = [{
-    //   items: [{
-    //     label: '--------',
-    //     value: '--------',
-    //     isDisabled: false
-    //   }],
-    //   value: '--------'
-    // }]
-
     const layout = formLayout.layout
     console.log("⛱", layout)
 
@@ -62,14 +53,6 @@ import {
     var dropdown = new kintoneUIComponent.Dropdown({
       items: subTable,
       value: '--------'
-      // [
-      //     {
-      //         label: subTable,
-      //         value: subTable,
-      //         isDisabled: false
-      //     },
-      // ],
-      // value: '--------'
   });
 
       // dropdown.on('change', function (event) {
@@ -81,7 +64,7 @@ import {
       // //   popUpConfigDropDowns(tableName)
       // });
 
-      $('.settings').append(dropdown.render());
+      $('.settings').text("Please choose the table you'd like to sort: ").append(dropdown.render());
 
 
       var saveButton = new kintoneUIComponent.Button({
