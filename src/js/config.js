@@ -2,16 +2,14 @@ import $ from 'jquery';
 import * as kintoneJSSDK from '@kintone/kintone-js-sdk';
 var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
 require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
-import {
-  setTable
-} from './configTable'
+// import {setTable} from './configTable'
 import {
   handleSaveButton,
   handleCancelButton
 } from './saveAndCancel'
-import {
-  popUpConfigTable
-} from './popUpConfigTable';
+// import {
+//   popUpConfigDropDowns
+// } from './popUpConfigDropDowns';
 
 
 (function (PLUGIN_ID) {
@@ -21,7 +19,7 @@ import {
     var items = [{
       label: '--------',
       value: '--------',
-      isDisabled: false
+      isDisabled: true
     }]
     const layout = formLayout.layout
     console.log("⛱", layout)
@@ -52,42 +50,67 @@ import {
       var subTable = getSubTableList(rsp)
       console.log("😡", subTable)
 
-      var initialData = [{
-        tableFieldCode: {
-          items: subTable,
-          value: '--------'
-        },
-      }];
+    var dropdown = new kintoneUIComponent.Dropdown({
+      items: subTable,
+      value: '--------'
+  });
 
+  var getTableColumns = (formLayout) => {
+    var items = [{
+        label: '--------',
+        value: '--------',
+        isDisabled: true
+    }]
+    const layout = formLayout.layout
 
-
-      var table = setTable(initialData)
-
-      table.on('cellChange', function (event) {
-        console.log("🙃", event);
-        for (let i = 0; i < event.data.length; i++) {
-          var tableName = event.data[i].tableFieldCode.value
-          console.log("🤬",tableName )
+    layout.forEach(subtable => {
+        if (subtable.type === 'SUBTABLE') {
+            subtable.fields.forEach(field => {
+                var itemObj = {}
+                itemObj.label = field.code
+                itemObj.value = field.code
+                itemObj.isDisabled = false
+                items.push(itemObj)
+            })
         }
-        popUpConfigTable(tableName)
+    })
+    return items
+}
+$('.settings').text("Please choose the table you'd like to sort: ").append(dropdown.render());
+
+      dropdown.on('change', function (event) {
+        console.log("🙃hey kelly", event);
+
+        var tableColumn = getTableColumns(rsp)
+        
+        var dropdown2 = new kintoneUIComponent.Dropdown({
+          items: tableColumn,
+          value: '--------'
       });
+        // getTableColumns(rsp)
 
-      $('.settings').append(table.render());
+        // for (let i = 0; i < event.data.length; i++) {
+        //   var tableName = event.data[i].tableFieldCode.value
+        //   console.log("🤬", tableName)
+        // }
+      //   popUpConfigDropDowns(tableName)
+      $('.settings').text("Please choose the column from " + event + " you'd like to sort: ").append(dropdown2.render());
 
+      });
 
       var saveButton = new kintoneUIComponent.Button({
         text: 'Save',
         type: 'submit'
       });
       saveButton.on('click', function () {
-        handleSaveButton(table)
+        handleSaveButton(dropdown)
       });
 
       var cancelButton = new kintoneUIComponent.Button({
         text: 'Cancel'
       });
       cancelButton.on('click', function (event) {
-        handleCancelButton(table)
+        handleCancelButton(dropdown)
       });
 
       $(".SaveButton").append(saveButton.render())
