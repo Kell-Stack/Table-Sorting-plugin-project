@@ -17,10 +17,11 @@ import {
 
   var getSubTableList = (formLayout) => {
     var items = [{
-      label: '---k-----',
-      value: '-------l-',
-      isDisabled: false
-    }]
+      label: '--------',
+      value: '--------',
+      isDisabled: true
+    },
+  ]
     const layout = formLayout.layout
     console.log("⛱", layout)
 
@@ -51,14 +52,15 @@ import {
       console.log("😡", subTable)
 
     var dropdown = new kintoneUIComponent.Dropdown({
-      items: [
-          {
-              label: 'hE-------',
-              value: '--------',
-              isDisabled: false
-          },
-      ],
-      value: '--------'
+      items: subTable
+      // [
+      //     {
+      //         label: subTable,
+      //         value: subTable,
+      //         isDisabled: false
+      //     },
+      // ],
+      // value: '--------'
   });
 
       // dropdown.on('change', function (event) {
