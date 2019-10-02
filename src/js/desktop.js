@@ -1,24 +1,32 @@
-jQuery.noConflict();
+import $ from 'jquery';
+import * as kintoneJSSDK from '@kintone/kintone-js-sdk';
+var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
+require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
+import image from '../image/sort-arrows-couple-pointing-up-and-down.png';
 
-(function($, PLUGIN_ID) {
+
+
+(function (PLUGIN_ID) {
   'use strict';
 
-  kintone.events.on('app.record.index.show', function() {
-    var config = kintone.plugin.app.getConfig(PLUGIN_ID);
+  const getArrowIcon = () => {
 
-    var spaceElement = kintone.app.getHeaderSpaceElement();
-    var fragment = document.createDocumentFragment();
-    var headingEl = document.createElement('h3');
-    var messageEl = document.createElement('p');
+    var config = kintone.plugin.app.getConfig(PLUGIN_ID)
 
-    messageEl.classList.add('plugin-space-message');
-    messageEl.textContent = config.message;
-    headingEl.classList.add('plugin-space-heading');
-    headingEl.textContent = 'Hello kintone plugin!';
+    var parsedConfig = JSON.parse(config.table);
+    parsedConfig.forEach(index => {
 
-    fragment.appendChild(headingEl);
-    fragment.appendChild(messageEl);
-    spaceElement.appendChild(fragment);
+      var icon = document.createElement('img')
+      icon.setAttribute('src', image)
+
+
+      $(icon).attr('class', 'arrow-icon')
+ 
+    })
+  }
+
+  kintone.events.on('app.record.detail.show', function (event) {
+    getArrowIcon()
   });
 
-})(jQuery, kintone.$PLUGIN_ID);
+})(kintone.$PLUGIN_ID);

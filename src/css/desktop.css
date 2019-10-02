@@ -8,4 +8,7 @@
   margin: 0.8rem;
   margin-top: 0;
 }
-.
+
+.arrow-icon {
+  position: absolute;
+}
