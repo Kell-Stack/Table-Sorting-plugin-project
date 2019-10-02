@@ -17,7 +17,7 @@ import {
     var items = [{
       label: '--------',
       value: '--------',
-      isDisabled: false
+      isDisabled: true
     }]
     const layout = formLayout.layout
     console.log("⛱", layout)
@@ -31,9 +31,6 @@ import {
         itemObj.isDisabled = false
         items.push(itemObj)
         console.log("😈", itemObj)
-
-
-
       }
     })
     return items
@@ -122,19 +119,25 @@ import {
       // });
 
 
+      var tables = {
+        label: {
+          table: []
+        }
+      }
+
       var dropdown = new kintoneUIComponent.Dropdown({
         items: subTable,
         value: '--------'
       });
-      dropdown.on('change', function (event) {
-        console.log("🙃🙃🙃", event);
-      })
 
       $('.dropdown').text("Please choose the table you'd like to sort: ").append(dropdown.render());
 
+      dropdown.on('change', function (event) {
+        console.log("🙃🙃🙃", event);
 
+        //ideally your nex two questions would appear
 
-      var chooseColAndSort = () => {
+        // var chooseColAndSort = (input) => {
         var tableColumn = getTableColumns(rsp)
         var dropdown2 = new kintoneUIComponent.Dropdown({
           items: tableColumn,
@@ -158,20 +161,32 @@ import {
           .text("Please choose the column from " + event + " you'd like to sort: ")
           .append(dropdown2.render())
 
-        $('.dropdown3')
-          .text("then the way you'd like to sort")
-          .append(dropdown3.render());
-      }
-      chooseColAndSort()
 
-      //   dropdown2.on('change', function (event) {
-      //     console.log("🙃hey kelly", event);
+        dropdown2.on('change', function (event) {
+          console.log("🙃hey kelly", event);
 
-      // $('.dropdown3')
-      //   .text("then the way you'd like to sort")
-      //   .append(dropdown3.render());
-      // })
-      // });
+          $('.dropdown3')
+            .text("Then the way you'd like to sort " + event + " ")
+            .append(dropdown3.render());
+        })
+        // }
+
+        // document.getElementById('primary').chooseColAndSort()
+        // chooseColAndSort(document.getElementById('.colandsortchoice'))
+
+        //   dropdown2.on('change', function (event) {
+        //     console.log("🙃hey kelly", event);
+
+        // $('.dropdown3')
+        //   .text("then the way you'd like to sort")
+        //   .append(dropdown3.render());
+        // })
+        // });
+
+      })
+
+      // var items = tables[event]
+      // console.log("🤩🤩🤩",items)
 
       var saveButton = new kintoneUIComponent.Button({
         text: 'Save',
