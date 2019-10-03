@@ -63,13 +63,13 @@ import {
       var subTable = getSubTableList(rsp)
       console.log("😡", subTable)
       var excluded = excludedFieldTypes(rsp)
-      console.log(excluded)
+      console.log("this will be exclusions",excluded)
 
       var getTableColumns = (formLayout, event) => {
         var items = [{
           label: '--------',
           value: '--------',
-          isDisabled: false
+          isDisabled: true
         }]
         const layout = formLayout.layout
 
@@ -90,36 +90,6 @@ import {
         return items
       }
 
-      // var dropdown = new kintoneUIComponent.Dropdown({
-      //   items: [{
-      //       label: 'Orange',
-      //       value: 'Orange',
-      //       isDisabled: true
-      //     },
-      //     {
-      //       label: 'Banana',
-      //       value: 'Banana',
-      //       isDisabled: false
-      //     }
-      //   ],
-      //   value: 'Banana'
-      // });
-
-      // var body = document.getElementsByTagName("BODY")[0];
-      // body.appendChild(dropdown.render());
-
-      // dropdown.addItem({
-      //   label: 'Lemon',
-      //   value: 'Lemon',
-      //   isDisabled: true
-      // });
-
-      var tables = {
-        label: {
-          table: []
-        }
-      }
-
       var dropdown = new kintoneUIComponent.Dropdown({
         items: subTable,
         value: '--------'
@@ -129,10 +99,9 @@ import {
 
       dropdown.on('change', function (event) {
         console.log("🙃🙃🙃", event);
+        console.log("bruhhhhh")
 
-        //ideally your nex two questions would appear
-
-        var chooseColAndSort = (input) => {
+        // var chooseColAndSort = () => {
         var tableColumn = getTableColumns(rsp, event)
         var dropdown2 = new kintoneUIComponent.Dropdown({
           items: tableColumn,
@@ -145,7 +114,13 @@ import {
         })
 
         var dropdown3 = new kintoneUIComponent.Dropdown({
-          items: [{
+          items: [
+            {
+              label: '--------',
+              value: '--------',
+              isDisabled: true
+            },
+            {
               label: 'Ascending',
               value: 'Ascending',
               isDisabled: false
@@ -154,29 +129,30 @@ import {
               label: 'Descending',
               value: 'Descending',
               isDisabled: false
-            },
-          ]
+            }
+          ],
+          value: '--------'
         });
+
+        // dropdown2.on('change', function (event) {
+        //   console.log("🙃hey kelly", event);
         $('.dropdown2')
           .text("Please choose the column from " + event + " you'd like to sort: ")
           .append(dropdown2.render())
 
-          $('.dropdown4')
-          .text("Please choose the column from " + event + " you'd like to sort: ")
-          .append(dropdown4.render())
-
-
-        dropdown2.on('change', function (event) {
-          console.log("🙃hey kelly", event);
-
           $('.dropdown3')
             .text("Then the way you'd like to sort " + event + " ")
             .append(dropdown3.render());
-        })
-        }
+        
+        $('.primary').html("primarrrry").css("font-weight", "bold");
 
-        // $('.colandsortchoice').text("primary primary");
-        chooseColAndSort()
+
+
+        // $('.secondary').html("primary secondary").css("font-weight", "bold");
+        // $('.tertiary').html("primary tertiary").css("font-weight", "bold");
+
+        
+
 
         // document.getElementById('primary').chooseColAndSort()
         // chooseColAndSort(document.getElementById('.colandsortchoice'))
@@ -222,20 +198,4 @@ import {
 
 })(kintone.$PLUGIN_ID);
 
-//BUGS 
-// 1. when you select a drop down of the table you want towork with, a pop up table appears
-//    that *will* allow you to choose the columns' of that table HOWEVER if you choose that 
-//    same table again in the initial dropdown a new table pops out, will need to disable 
-//    once chose 
 
-// 2. if you switch the table the popup doesn't change it just gets added
-
-// 3. popup table is aggregating all column names as opposed to table specific column names
-
-var data = {"0": a, "1": b}
-
-Number(data["0"])
-
-var data = [a,b]
-data[0]
-data.indexOf(a)
