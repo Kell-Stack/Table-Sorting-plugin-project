@@ -65,12 +65,7 @@ import {
       var excluded = excludedFieldTypes(rsp)
       console.log(excluded)
 
-
-
-
-
-
-      var getTableColumns = (formLayout) => {
+      var getTableColumns = (formLayout, event) => {
         var items = [{
           label: '--------',
           value: '--------',
@@ -79,17 +74,18 @@ import {
         const layout = formLayout.layout
 
         layout.forEach(subtable => {
-          if (subtable.type === 'SUBTABLE') {
-            subtable.fields.forEach(field => {
-              var tableDD = field
-
-              var itemObj = {}
-              itemObj.label = field.code
-              itemObj.value = field.code
-              items.push(itemObj)
-              console.log("🛸", itemObj)
-            })
-          }
+          console.log("🛸1",subtable, subtable.code, event)
+          if (subtable.code === event) {
+            if (subtable.type === 'SUBTABLE'){
+              subtable.fields.forEach(field => {
+                  var itemObj = {}
+                  itemObj.label = field.code
+                  itemObj.value = field.code
+                  items.push(itemObj)
+                  console.log("🛸", itemObj)
+              })
+            }
+        }
         })
         return items
       }
@@ -118,7 +114,6 @@ import {
       //   isDisabled: true
       // });
 
-
       var tables = {
         label: {
           table: []
@@ -137,9 +132,14 @@ import {
 
         //ideally your nex two questions would appear
 
-        // var chooseColAndSort = (input) => {
-        var tableColumn = getTableColumns(rsp)
+        var chooseColAndSort = (input) => {
+        var tableColumn = getTableColumns(rsp, event)
         var dropdown2 = new kintoneUIComponent.Dropdown({
+          items: tableColumn,
+          value: '--------'
+        })
+
+        var dropdown4 = new kintoneUIComponent.Dropdown({
           items: tableColumn,
           value: '--------'
         })
@@ -161,6 +161,10 @@ import {
           .text("Please choose the column from " + event + " you'd like to sort: ")
           .append(dropdown2.render())
 
+          $('.dropdown4')
+          .text("Please choose the column from " + event + " you'd like to sort: ")
+          .append(dropdown4.render())
+
 
         dropdown2.on('change', function (event) {
           console.log("🙃hey kelly", event);
@@ -169,7 +173,10 @@ import {
             .text("Then the way you'd like to sort " + event + " ")
             .append(dropdown3.render());
         })
-        // }
+        }
+
+        // $('.colandsortchoice').text("primary primary");
+        chooseColAndSort()
 
         // document.getElementById('primary').chooseColAndSort()
         // chooseColAndSort(document.getElementById('.colandsortchoice'))
@@ -224,3 +231,11 @@ import {
 // 2. if you switch the table the popup doesn't change it just gets added
 
 // 3. popup table is aggregating all column names as opposed to table specific column names
+
+var data = {"0": a, "1": b}
+
+Number(data["0"])
+
+var data = [a,b]
+data[0]
+data.indexOf(a)
