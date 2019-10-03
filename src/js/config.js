@@ -108,11 +108,6 @@ import {
           value: '--------'
         })
 
-        var dropdown4 = new kintoneUIComponent.Dropdown({
-          items: tableColumn,
-          value: '--------'
-        })
-
         var dropdown3 = new kintoneUIComponent.Dropdown({
           items: [
             {
@@ -136,6 +131,23 @@ import {
 
         // dropdown2.on('change', function (event) {
         //   console.log("🙃hey kelly", event);
+
+
+        var primaryLabel = new kintoneUIComponent.Label({ text: 'Primary Sortt', textColor: 'red' })
+        $('.primary')
+        .append(primaryLabel.render());
+        console.log("where is your label?",primaryLabel)
+
+        var secondary = new kintoneUIComponent.Label({ text: 'Secondary SORTT', textColor: 'red' })
+        $('.secondary')
+        .append(secondary.render());
+        console.log("where is your label?",secondary)
+
+        var tertiary = new kintoneUIComponent.Label({ text: 'Tertiary sort', textColor: 'red' })
+        $('.tertiary')
+        .append(tertiary.render());
+        console.log("where is your label?",tertiary)
+        
         $('.dropdown2')
           .text("Please choose the column from " + event + " you'd like to sort: ")
           .append(dropdown2.render())
@@ -143,13 +155,8 @@ import {
           $('.dropdown3')
             .text("Then the way you'd like to sort " + event + " ")
             .append(dropdown3.render());
-        
-        $('.primary').html("primarrrry").css("font-weight", "bold");
+      
 
-
-
-        // $('.secondary').html("primary secondary").css("font-weight", "bold");
-        // $('.tertiary').html("primary tertiary").css("font-weight", "bold");
 
         
 
