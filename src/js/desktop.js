@@ -2,31 +2,35 @@ import $ from 'jquery';
 import * as kintoneJSSDK from '@kintone/kintone-js-sdk';
 var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
 require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
-import image from '../image/sort-arrows-couple-pointing-up-and-down.png';
+// import image from '../image/sort-arrows-couple-pointing-up-and-down.png';
+import {
+  filterFunc
+} from './filter'
 
 
 
 (function (PLUGIN_ID) {
   'use strict';
 
-  const getArrowIcon = () => {
+  const getLayout = () => {
 
-    var config = kintone.plugin.app.getConfig(PLUGIN_ID)
+    var connection = new kintoneJSSDK.Connection()
+    var kintoneApp = new kintoneJSSDK.App(connection)
 
-    var parsedConfig = JSON.parse(config.table);
-    parsedConfig.forEach(index => {
+    kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
+      // var config = kintone.plugin.app.getConfig(PLUGIN_ID)
 
-      var icon = document.createElement('img')
-      icon.setAttribute('src', image)
-
-
-      $(icon).attr('class', 'arrow-icon')
- 
-    })
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
+  console.log("hello kintone from kelly")
+
   kintone.events.on('app.record.detail.show', function (event) {
-    getArrowIcon()
+    console.log("this is the event you were looking for: ", event)
+    filterFunc()
   });
+
 
 })(kintone.$PLUGIN_ID);

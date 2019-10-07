@@ -2,181 +2,230 @@ import $ from 'jquery';
 import * as kintoneJSSDK from '@kintone/kintone-js-sdk';
 var kintoneUIComponent = require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.js');
 require('modules/@kintone/kintone-ui-component/dist/kintone-ui-component.min.css');
-// import {excludedFieldTypes} from './filter'
+// import {
+//   filterFunc
+// } from './filter'
 import {
   handleSaveButton,
   handleCancelButton
 } from './saveAndCancel'
 
 
-
 (function (PLUGIN_ID) {
-  'use strict';
+    'use strict';
 
-  var getSubTableList = (formLayout) => {
-    var items = [{
-      label: '--------',
-      value: '--------',
-      isDisabled: true
-    }]
-    const layout = formLayout.layout
-    console.log("⛱", layout)
+    var getTablesList = (formLayout) => {
+      var items = [{
+        label: '--------',
+        value: '--------',
+        isDisabled: true
+      }]
+      const layout = formLayout.layout
+      console.log("⛱", layout)             
 
-    layout.forEach(subtable => {
-      if (subtable.type === 'SUBTABLE') {
-        console.log("🤯", subtable)
-        var itemObj = {}
-        itemObj.label = subtable.code
-        itemObj.value = subtable.code
-        itemObj.isDisabled = false
-        items.push(itemObj)
-        console.log("😈", itemObj)
-      }
-    })
-    return items
-  }
+      layout.forEach(subtable => {
+        if (subtable.type === 'SUBTABLE') {
+          //console.log("🤯", subtable)
+          var itemObj = {}
+          itemObj.label = subtable.code
+          itemObj.value = subtable.code
+          itemObj.isDisabled = false
+          items.push(itemObj)
+          //console.log("😈", itemObj)
+        }
+      })
+      return items
+    }
 
-  var excludedFieldTypes = (formLayout) => {
-    const layout = formLayout.layout
-    layout.forEach(subtable => {
-      if (subtable.type === 'SUBTABLE') {
-        var fieldType = subtable.fields
-        fieldType.forEach(field => {
-          if (fieldType === 'MULTI_LINE_TEXT' || 'RICH_TEXT' || 'CHECK_BOX' || 'MULTI_SELECT' || 'FILE' || 'LINK' || 'USER_SELECT' || 'ORGANIZATION_SELECT' || 'GROUP_SELECT') {
-            var arr = []
-            arr.push(field)
-            console.log("EXCLUDED FIELD TYPES 🚨: ", arr.push(field))
-          }
-        })
-      }
-    })
-  }
+    var excludedFieldTypes = (formLayout) => {
+      const layout = formLayout.layout
+      layout.forEach(subtable => {
+        if (subtable.type === 'SUBTABLE') {
+          var fieldType = subtable.fields
+          fieldType.forEach(field => {
+            if (fieldType === 'MULTI_LINE_TEXT' || 'RICH_TEXT' || 'CHECK_BOX' || 'MULTI_SELECT' || 'FILE' || 'LINK' || 'USER_SELECT' || 'ORGANIZATION_SELECT' || 'GROUP_SELECT') {
+              var arr = []
+              arr.push(field)
+              //console.log("EXCLUDED FIELD TYPES 🚨: ", arr.push(field))
+            }
+          })
+        }
+      })
+    }
 
-  var getFormLayout = () => {
-    var connection = new kintoneJSSDK.Connection()
-    var kintoneApp = new kintoneJSSDK.App(connection)
 
-    kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
-      console.log("🥶", rsp)
-      var config = kintone.plugin.app.getConfig(PLUGIN_ID)
-      console.log("why is this empty? ", config)
-      var subTable = getSubTableList(rsp)
-      console.log("😡", subTable)
-      var excluded = excludedFieldTypes(rsp)
-      console.log("this will be exclusions",excluded)
 
-      var getTableColumns = (formLayout, event) => {
-        var items = [{
-          label: '--------',
-          value: '--------',
-          isDisabled: true
-        }]
-        const layout = formLayout.layout
 
-        layout.forEach(subtable => {
-          console.log("🛸1",subtable, subtable.code, event)
-          if (subtable.code === event) {
-            if (subtable.type === 'SUBTABLE'){
-              subtable.fields.forEach(field => {
+
+    var getFormLayout = () => {
+      var connection = new kintoneJSSDK.Connection()
+      var kintoneApp = new kintoneJSSDK.App(connection)
+
+      kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
+        console.log("🥶", rsp)
+        // var config = kintone.plugin.app.getConfig(PLUGIN_ID)
+        // console.log("why is this empty? ", config)
+        var subTable = getTablesList(rsp)
+        //console.log("😡", subTable)
+        // var excluded = excludedFieldTypes(rsp)
+        // console.log("this will be exclusions", excluded)
+
+        var getTableColumns = (formLayout, event) => {
+          var items = [{
+            label: '--------',
+            value: '--------',
+            isDisabled: true
+          }]
+          const layout = formLayout.layout
+
+
+          layout.forEach(subtable => {
+            console.log("🛸🛸🛸", subtable, subtable.code, event)
+            if (subtable.code === event) {
+              if (subtable.type === 'SUBTABLE') {
+                subtable.fields.forEach(field => {
                   var itemObj = {}
                   itemObj.label = field.code
                   itemObj.value = field.code
                   items.push(itemObj)
-                  console.log("🛸", itemObj)
-              })
+                  // console.log("🛸", itemObj)
+                })
+              }
+
             }
+          })
+
+
+          // console.log(items,"🧽🧽🧽 now")
+          return items
         }
-        })
-        return items
-      }
 
-      var dropdown = new kintoneUIComponent.Dropdown({
-        items: subTable,
-        value: '--------'
-      });
 
-      $('.dropdown').text("Please choose the table you'd like to sort: ").append(dropdown.render());
 
-      dropdown.on('change', function (event) {
-        console.log("🙃🙃🙃", event);
-        console.log("bruhhhhh")
+        //Dropdown Module ###########################################################################################
 
-        // var chooseColAndSort = () => {
-        var tableColumn = getTableColumns(rsp, event)
-        var dropdown2 = new kintoneUIComponent.Dropdown({
-          items: tableColumn,
-          value: '--------'
-        })
-
-        var dropdown3 = new kintoneUIComponent.Dropdown({
-          items: [
-            {
-              label: '--------',
-              value: '--------',
-              isDisabled: true
-            },
-            {
-              label: 'Ascending',
-              value: 'Ascending',
-              isDisabled: false
-            },
-            {
-              label: 'Descending',
-              value: 'Descending',
-              isDisabled: false
-            }
-          ],
+        var dropdown = new kintoneUIComponent.Dropdown({
+          items: JSON.parse(JSON.stringify(subTable)),
           value: '--------'
         });
 
-        // dropdown2.on('change', function (event) {
-        //   console.log("🙃hey kelly", event);
+        $('.dropdown').text("Please choose the table you'd like to sort: ").append(dropdown.render());
+
+        dropdown.on('change', function (event) {
+          console.log("🙃🙃🙃", event);
 
 
-        var primaryLabel = new kintoneUIComponent.Label({ text: 'Primary Sortt', textColor: 'red' })
-        $('.primary')
-        .append(primaryLabel.render());
-        console.log("where is your label?",primaryLabel)
+          // var chooseColAndSort = () => {
+          var tableColumn = getTableColumns(rsp, event)
 
-        var secondary = new kintoneUIComponent.Label({ text: 'Secondary SORTT', textColor: 'red' })
-        $('.secondary')
-        .append(secondary.render());
-        console.log("where is your label?",secondary)
+          var dropdown1 = new kintoneUIComponent.Dropdown({
+            items: JSON.parse(JSON.stringify(tableColumn)),
+            value: '--------'
+          })
 
-        var tertiary = new kintoneUIComponent.Label({ text: 'Tertiary sort', textColor: 'red' })
-        $('.tertiary')
-        .append(tertiary.render());
-        console.log("where is your label?",tertiary)
-        
-        $('.dropdown2')
-          .text("Please choose the column from " + event + " you'd like to sort: ")
-          .append(dropdown2.render())
+          $('.dropdown1')
+            .text("Please choose the column from " + event + " you'd like to sort: ")
+            .append(dropdown1.render());
+
+          var dropdown3 = new kintoneUIComponent.Dropdown({
+            items: JSON.parse(JSON.stringify(tableColumn)),
+            value: '--------'
+          })
 
           $('.dropdown3')
-            .text("Then the way you'd like to sort " + event + " ")
+            .text("Please choose the column from " + event + " you'd like to sort: ")
             .append(dropdown3.render());
+
+          var dropdown5 = new kintoneUIComponent.Dropdown({
+            items: JSON.parse(JSON.stringify(tableColumn)),
+            value: '--------'
+          })
+
+          $('.dropdown5')
+            .text("Please choose the column from " + event + " you'd like to sort: ")
+            .append(dropdown5.render());
+
+
+          // dropdown2.on('change', function (event) {
+          //   console.log("🙃hey kelly", event);
+
+          var dropdown2 = new kintoneUIComponent.Dropdown({
+            items: [{
+                label: '--------',
+                value: '--------',
+                isDisabled: true
+              },
+              {
+                label: 'Ascending',
+                value: 'Ascending',
+                isDisabled: false
+              },
+              {
+                label: 'Descending',
+                value: 'Descending',
+                isDisabled: false
+              }
+            ],
+            value: '--------'
+          });
+
+          $('.dropdown2')
+            .text("Then the way you'd like to sort the " + event + " column: ")
+            .append(dropdown2.render());
+
+          var dropdown4 = new kintoneUIComponent.Dropdown({
+            items: [{
+                label: '--------',
+                value: '--------',
+                isDisabled: true
+              },
+              {
+                label: 'Ascending',
+                value: 'Ascending',
+                isDisabled: false
+              },
+              {
+                label: 'Descending',
+                value: 'Descending',
+                isDisabled: false
+              }
+            ],
+            value: '--------'
+          });
+
+          $('.dropdown4')
+            .text("Then the way you'd like to sort the " + event + " column: ")
+            .append(dropdown4.render());
+
+          var dropdown6 = new kintoneUIComponent.Dropdown({
+            items: [{
+                label: '--------',
+                value: '--------',
+                isDisabled: true
+              },
+              {
+                label: 'Ascending',
+                value: 'Ascending',
+                isDisabled: false
+              },
+              {
+                label: 'Descending',
+                value: 'Descending',
+                isDisabled: false
+              }
+            ],
+            value: '--------'
+          });
+
+          $('.dropdown6')
+            .text("Then the way you'd like to sort the " + event + " column: ")
+            .append(dropdown6.render());
+        })
+
       
 
 
-        
-
-
-        // document.getElementById('primary').chooseColAndSort()
-        // chooseColAndSort(document.getElementById('.colandsortchoice'))
-
-        //   dropdown2.on('change', function (event) {
-        //     console.log("🙃hey kelly", event);
-
-        // $('.dropdown3')
-        //   .text("then the way you'd like to sort")
-        //   .append(dropdown3.render());
-        // })
-        // });
-
-      })
-
-      // var items = tables[event]
-      // console.log("🤩🤩🤩",items)
+      //Dropdown Module###########################################################################################
 
       var saveButton = new kintoneUIComponent.Button({
         text: 'Save',
@@ -197,12 +246,10 @@ import {
       $(".CancelButton").append(cancelButton.render())
 
     }).catch((err) => {
-      console.log(err);
-    });
-  }
+    console.log(err);
+  });
+}
 
-  getFormLayout()
+getFormLayout()
 
 })(kintone.$PLUGIN_ID);
-
-
