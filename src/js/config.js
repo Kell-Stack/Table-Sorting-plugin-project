@@ -98,8 +98,6 @@ import {getRecordData} from './getTableData'
         return items
       }
 
-
-
       //Dropdown Module ###########################################################################################
 
       var dropdown = new kintoneUIComponent.Dropdown({
