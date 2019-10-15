@@ -5,17 +5,9 @@ var getTableData = (response) => {
 
     console.log(mostRecentData,"🦜")
 
-    if (query ){
-        
-    }
+    // if (query ){
 
-
-
-    
-    // records.forEach(element => {
-    //     console.log(element,"👠👠👠👠👠👠")
-    //     var mostRecentData = element[0]
-    //     console.log(mostRecentData, "recent data")
+    // }
         
 }
 
@@ -57,6 +49,6 @@ var getRecordData = () => {
 
     }
 
-export {
-    getRecordData
-};
+// export {
+//     getRecordData
+// };

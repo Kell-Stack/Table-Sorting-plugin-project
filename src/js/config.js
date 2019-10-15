@@ -9,7 +9,7 @@ import {
   handleSaveButton,
   handleCancelButton
 } from './saveAndCancel'
-import {getRecordData} from './getTableData'
+// import {getRecordData} from './getTableData'
 
 
 (function (PLUGIN_ID) {
@@ -51,21 +51,25 @@ import {getRecordData} from './getTableData'
           }
         })
       }
-    })
+    })  
   }
 
+  var updatedConfig = (config, itemsArr) => {
+    var items = []
+    var updatedConfigArr = []
+    console.log(itemsArr,config, "items array🙀")
 
-
-
+  }
 
   var getFormLayout = () => {
     var connection = new kintoneJSSDK.Connection()
     var kintoneApp = new kintoneJSSDK.App(connection)
 
-
-
     kintoneApp.getFormLayout(kintone.app.getId(), true).then((rsp) => {
       console.log("🥶", rsp)
+      var config =kintone.plugin.app.getConfig(PLUGIN_ID)
+      console.log(config,"config💩")
+
       var subTable = getTablesList(rsp)
       //console.log("😡", subTable)
       // var excluded = excludedFieldTypes(rsp)
@@ -122,23 +126,6 @@ import {getRecordData} from './getTableData'
           .text("Please choose the column from " + event + " you'd like to sort: ")
           .append(dropdown1.render());
 
-        var dropdown3 = new kintoneUIComponent.Dropdown({
-          items: JSON.parse(JSON.stringify(tableColumn)),
-          value: '--------'
-        })
-
-        $('.dropdown3')
-          .text("Please choose the column from " + event + " you'd like to sort: ")
-          .append(dropdown3.render());
-
-        var dropdown5 = new kintoneUIComponent.Dropdown({
-          items: JSON.parse(JSON.stringify(tableColumn)),
-          value: '--------'
-        })
-
-        $('.dropdown5')
-          .text("Please choose the column from " + event + " you'd like to sort: ")
-          .append(dropdown5.render());
 
         var dropdown2 = new kintoneUIComponent.Dropdown({
           items: [{
@@ -163,160 +150,31 @@ import {getRecordData} from './getTableData'
         $('.dropdown2')
           .text("Then the way you'd like to sort the " + event + " column: ")
           .append(dropdown2.render());
-
-        var dropdown4 = new kintoneUIComponent.Dropdown({
-          items: [{
-              label: '--------',
-              value: '--------',
-              isDisabled: true
-            },
-            {
-              label: 'Ascending',
-              value: 'Ascending',
-              isDisabled: false
-            },
-            {
-              label: 'Descending',
-              value: 'Descending',
-              isDisabled: false
-            }
-          ],
-          value: '--------'
-        });
-
-        $('.dropdown4')
-          .text("Then the way you'd like to sort the " + event + " column: ")
-          .append(dropdown4.render());
-
-        var dropdown6 = new kintoneUIComponent.Dropdown({
-          items: [{
-              label: '--------',
-              value: '--------',
-              isDisabled: true
-            },
-            {
-              label: 'Ascending',
-              value: 'Ascending',
-              isDisabled: false
-            },
-            {
-              label: 'Descending',
-              value: 'Descending',
-              isDisabled: false
-            }
-          ],
-          value: '--------'
-        });
-
-        $('.dropdown6')
-          .text("Then the way you'd like to sort the " + event + " column: ")
-          .append(dropdown6.render());
       })
-      //Dropdown Module End#######################################################################################
 
 
       var record = kintone.app.record.get();
       console.log("recs", record);
 
-
-      // kintone.events.on("app.record.create.submit.success", function (ev) {
-      //   var record = ev.record;
-      //   alert("The record ID is " + record["$id"]["value"] + ".");
-      // });
-
-      // var body = {
-      //   "app": [],
-      //   "id": []
-      // };
-
-      // kintone.api(kintone.api.url('/k/admin/app/flow?app=' + kintone.app.getId(), true), 'GET', body, function (resp) {
-      //   // success
-      //   console.log(resp);
-      // }, function (error) {
-      //   // error
-      //   console.log(error);
-      // });
-
-      //   kintone.events.on("app.record.create.submit.success", function (ev) {
-      //     var record = ev.record;
-      //     alert("The record ID is " + record["$id"]["value"] + ".");
-      //   })
-
-      //   kintone.events.on("app.record.create.submit.success", function (ev) {
-      //     var record = ev.record;
-      //     alert("The record ID is " + record["$id"]["value"] + ".uhh");
-      //   });
-
-      //   kintone.events.on('app.record.index.edit.submit', function (event) {
-      //     var record = event.record;
-      //     console.log("ok", record)
-      //     console.log("okok", event)
-      //     return event
-      //   })
-
-      //   var record = kintone.app.record.get();
-      //   console.log(record, "hihbbbu");
-
-      //   kintone.events.on('app.record.index.show', function (event) {
-      //     console.log(event, "fjbnvkfsk");
-      //   })
-
-
-      //   var recordId = kintone.app.record.getId();
-      //   console.log(recordId, "jsfkbksfksk");
-
-      //   kintone.events.on('app.record.index.edit.change', function (event) {
-      //     console.log("🤖", event)
-
-      //   })
-
-
-      //   var record = kintone.app.record.get();
-      //   console.log(record, "hellohellohelloe");
-
-      //   // kintone.api('/k/v1/records', 'GET', params).then(function (resp) {
-
-      //   var recordCreate = kintone.app.record.create
-      //   console.log("🆘🆘", recordCreate);
-      //   var recordEdit = kintone.app.record.edit
-      //   console.log("🆘🆘🆘", recordEdit);
-      //   var recordShow = kintone.app.record.show
-      //   console.log("🆘🆘🆘🆘", recordShow);
-
-      //   // })
-
-
-      //   kintone.events.on('app.record.create.submit', function(event) {
-      //     var record = event.record;
-      //     var params = { app: masterAppId, query: query };
-
-      //     return kintone.api('/k/v1/records', 'GET', params).then(function(resp) {
-      //         //Check that the company name exists in the master app
-      //         return event;
-      //     }, function(resp) { //Dealing with errors received by the system
-      //         var errmsg = 'There was an error when retrieving the data.';
-      //         if (resp.message) {
-      //             errmsg += '\n' + resp.message;
-      //         }
-      //         alert(errmsg);
-      //     });
-      // });
-
-
+      // if (config) {
+      //   var parsedConfigObj = JSON.parse(JSON.stringify(config))
+      //   var newConfigObj = updatedConfig(parsedConfigObj)
+      //   console.log(newConfigObj, "🤑")
+      // }
 
       var saveButton = new kintoneUIComponent.Button({
         text: 'Save',
         type: 'submit'
       });
       saveButton.on('click', function () {
-        handleSaveButton(dropdown)
+        handleSaveButton()
       });
 
       var cancelButton = new kintoneUIComponent.Button({
         text: 'Cancel'
       });
       cancelButton.on('click', function (event) {
-        handleCancelButton(dropdown)
+        handleCancelButton()
       });
 
       $(".SaveButton").append(saveButton.render())
@@ -329,6 +187,6 @@ import {getRecordData} from './getTableData'
 
   getFormLayout()
   
-  getRecordData()
+  // getRecordData()
 
 })(kintone.$PLUGIN_ID);
