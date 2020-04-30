@@ -29,7 +29,7 @@
     "@kintone/kintone-js-sdk": "^0.4.0",
     "@kintone/kintone-ui-component": "^0.3.3",
     "css-loader": "^3.1.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "style-loader": "^0.23.1",
     "sweetalert2": "^8.18.3",
     "url-loader": "^2.1.0"
